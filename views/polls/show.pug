@@ -1,0 +1,32 @@
+extends ../layout
+
+block head
+  meta(property="og:title", content=poll.name)
+  meta(property="og:description", content=poll.description)
+
+block content
+  div(class="poll-page")
+    section(class="section")
+      div(class="container")
+        div(class="columns is-centered")
+          div(class="column is-two-thirds")
+            div
+              a(href="/") &larr; Back
+
+            div(class="box header-box")
+              h1(class="title is-size-3 has-text-weight-light")= poll.name
+              p(class="subtitle is-6 has-text-grey-light") Creado por user2@example.com
+              p= poll.description
+
+            form(action=`/polls/${poll._id}/vote` method="post")
+              div(class="box options-box has-background-white")
+                p Selecciona una opción:
+                div(class="options")
+                  each option, i in poll.options
+                    div(class="option")
+                      label(class="radio is-size-6")
+                        input(type="radio" name="answer" value=i)
+                        span= "  " + option.text
+
+              div(class="form-actions has-text-right")
+                button(type="submit", class="button is-primary is-medium") Votar!

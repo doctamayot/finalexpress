@@ -1,0 +1,30 @@
+extend ../layout
+
+block content
+  include ../mixins.pug
+  .container
+    .row.justify-content-center
+      .col-sm-4
+        h1 New Poll
+              form(action="/polls", method="post")
+                .form-group
+                  div(class="field")
+                    input.form-control(placeholder="Titulo", id="name", type="text", name="name", class="input" + (errors && errors.name ? " is-danger" : ""))
+                    +error(errors, "name")
+                  div(class="field")
+                    
+                    input.form-control(id="description", name="description", type="area", placeholder="Descripcion")
+                  div(class="options")
+                    h4 Options
+                    div(class="field")
+                      input.form-control(type="text", name="options[0][text]", class="input" + (errors && errors["options.0.text"] ? " is-danger" : ""), placeholder="Option 1")
+                      +error(errors, "options.0.text")
+                    div(class="field")
+                      input.form-control(type="text", name="options[1][text]", class="input" + (errors && errors["options.1.text"] ? " is-danger" : ""), placeholder="Option 2")
+                      +error(errors, "options.1.text")        
+                    button.btn.btn-warning
+                     a(href="/") Cancel
+                    button.btn.btn-primary(type="submit") Create Poll
+
+  script.
+    new PollFormView();

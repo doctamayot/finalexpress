@@ -1,0 +1,69 @@
+extends ../layout
+
+block content
+  div(class="poll-page")
+    section(class="section")
+      div(class="container")
+        div(class="columns is-centered")
+          div(class="column is-two-thirds")
+            div(class="poll-page-header")
+              a(href="/") &larr; Back
+              div(class="share-icons")
+                a(href="#", class="share-url icon"): i(class="fas fa-link")
+                a(href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:3000/polls/" + poll._id + "&title=" + poll.name, class="social icon", data-network="facebook"): i(class="fab fa-facebook-square")
+                a(href="https://twitter.com/share?url=http://localhost:3000/polls/" + poll._id + "&text=" + poll.name, class="social icon", data-network="twitter"): i(class="fab fa-twitter")
+
+            div(class="box header-box")
+              h1(class="title is-size-3 has-text-weight-light")= poll.name
+              p(class="subtitle is-6 has-text-grey-light") Creado por user2@example.com
+              p= poll.description
+
+            div(class="box options-box has-background-white")
+              div(class="options")
+                each option, i in poll.options
+                  div(class="option")
+                    div(class="option-label") #{option.text}
+                      span #{poll.options[i].votes} votes
+                    div(class="progress-bar")
+                      div(class="option-bar" style="width: " + poll.optionPercentage(i) + "%;")
+                        if poll.optionPercentage(i) >= 10
+                          span= Math.round(poll.optionPercentage(i)) + "%"
+                      if poll.optionPercentage(i) < 10
+                        div(class="percentage-out")= Math.round(poll.optionPercentage(i)) + "%"
+
+      div(id="share-url-modal", class="modal")
+        div(class="modal-background")
+        div(class="modal-content")
+          div(class="box")
+            p Copy the following URL to share this poll:
+            pre http://localhost:3000/polls/#{poll._id}
+        button(class="modal-close is-large", aria-label="close")
+
+  script.
+    $('.share-url').on("click", function(e) {
+      e.preventDefault();
+      $("#share-url-modal").addClass("is-active");
+    });
+    
+    $('.modal-background, .modal-close').on("click", function(e) {
+      e.preventDefault();
+      $("#share-url-modal").removeClass("is-active");
+    });
+    
+    $('a.social').on("click", function(e) {
+      e.preventDefault();
+      var href= $(this).attr("href");
+      var network = $(this).data("network");
+      
+      var networks = {
+        facebook: { width : 600, height : 300 },
+        twitter: { width : 600, height : 254 }
+      };
+      
+      var popup = function(network) {
+        var options = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,";
+        window.open(href, '', options + "height=" + networks[network].height + ",width=" + networks[network].width);
+      }
+
+      popup(network);
+    });
