@@ -13,8 +13,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 
-//app.use(express.static('public'));
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(express.static('public'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieSession({ secret: process.env.SECRET || "secretcode" }));
