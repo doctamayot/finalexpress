@@ -39,7 +39,7 @@ app.use('/', routes);
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.MONGODB_URL || 'mongodb://doctamayot:calimenio3125@ds157723.mlab.com:57723/heroku_bxjt6kzm',{ useNewUrlParser: true 
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://doctamayot:calimenio3125@ds155076.mlab.com:55076/heroku_fh1xqvx6',{ useNewUrlParser: true 
 }).then(() => {
     console.log("Successfully connected to the database");
 }).catch(err => {
